@@ -20,9 +20,11 @@ public class WordDetailsActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            String meaning = bundle.getString("meaning");
-            String word = bundle.getString("word");
-            tvMeaning.setText(meaning);
+           Integer wid = bundle.getInt("wid");
+           String wordExtra = bundle.getString("word");
+           String meaningExtra = bundle.getString("meaning");
+            tvMeaning.setText(meaningExtra);
+            tvWord.setText(wordExtra +" id: "+wid);
         }
     }
 }

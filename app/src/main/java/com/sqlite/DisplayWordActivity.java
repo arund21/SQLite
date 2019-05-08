@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,9 +21,10 @@ import model.Word;
 
 
 public class DisplayWordActivity extends AppCompatActivity{
-private ListView lstWord;
-private EditText etSearch;
-private Button btnSearch;
+ ListView lstWord;
+ EditText etSearch;
+ Button btnSearch;
+ HashMap<String, String> hashMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,24 @@ private Button btnSearch;
             @Override
             public void onClick(View v) {
                 LoadWord();
+            }
+        });
+
+        lstWord.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                String wordValue = parent.getItemAtPosition(position).toString();
+                String meaning = hashMap.get(wordValue);
+                int wid =position;
+                Intent intent = new Intent(DisplayWordActivity.this, WordDetailsActivity.class);
+                intent.putExtra("wid", wid);
+                intent.putExtra("word", wordValue);
+                intent.putExtra("meaning", meaning);
+                startActivity(intent);
+
+                Toast.makeText(DisplayWordActivity.this, meaning, Toast.LENGTH_LONG).show();
+
             }
         });
 
@@ -66,16 +86,8 @@ private Button btnSearch;
         );
         lstWord.setAdapter(stringArrayAdapter);
 
-lstWord.setOnClickListener(new AdapterView.OnItemClickListener() {
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String key = parent.getItemAtPosition(position).toString();
-        Intent intent = new Intent(DisplayWordActivity.this,WordDetailsActivity.class);
-        intent.putExtra("word",parent.getItemAtPosition(position).toString());
-        intent.putExtra("meaning",meaning);
-        startActivity(intent);
-    }
-});
+
+
     }
 
 
